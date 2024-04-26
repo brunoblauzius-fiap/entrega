@@ -1,0 +1,139 @@
+openapi: "3.0.2"
+info:
+  title: Projeto Entrega
+  version: "1.0"
+servers:
+  - url: http://localhost:3003/api/v1
+  - url: http://localhost:3003/api/v1
+paths:
+
+  #producao
+  /Producao:
+    get:
+      summary: Recupera uma lista de pedidos.
+      description: Recupera uma lista de pedidos em espera na cozinha.
+      tags:
+        - "Producao"
+      responses:
+        "200":
+          description: retorna uma lista de itens
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Producao"
+    post:
+      summary: envia o pedido para producao.
+      tags:
+        - "Producao"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idPedido:
+                  type: string
+              required:
+                - "idPedido"
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Producao"
+  /Producao/{id}:
+    get:
+      summary: Recupera um Producao pelo ID
+      tags:
+        - "Producao"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID do produto
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Producao"
+    put:
+      summary: Atualiza os dados de um Producao.
+      tags:
+        - "Producao"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID do produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                category_id:
+                  type: number
+                  format: integer
+                value:
+                  type: number
+                  format: decimal
+                description:
+                  type: string
+              required:
+                - "name"
+                - "value"
+                - "category_id"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Producao"
+    delete:
+      summary: Deleta um Producao.
+      tags:
+        - "Producao"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID do Producao
+      responses:
+        "204":
+          description: OK
+components:
+  schemas:    
+    Producao:
+      properties:
+        idPedido:
+          type: integer
+        entradaCozinha:
+          type: string
+          format: datetime
+        saidaCozinha:
+          type: string
+          format: datetime
+        created:
+          type: string
+          format: datetime
+        modified:
+          type: string
+          format: datetime
+      required:
+        - "idPedido"

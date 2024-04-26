@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  web:
+    container_name: service-entrega
+    build:
+      context: .
+    volumes:
+      - ".:/app"
+      - "/node_modules"
+    ports:
+      - 3003:3003
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      MARIADB_HOST: ${MARIADB_HOST}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASS: ${MARIADB_PASS}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_PORT: ${MARIADB_PORT}
+    depends_on:
+      - maria-db-entrega
+
+  maria-db-entrega:
+    image: mariadb:latest
+    restart: unless-stopped
+    volumes:
+      - mariadb-entrega-data:/var/lib/mysql
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASS}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_PASS}
+    ports:
+      - 3310:3306
+
+volumes:
+  mariadb-entrega-data:
