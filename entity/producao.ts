@@ -3,9 +3,9 @@ import BadRequestError from "../application/exception/BadRequestError";
 
 class Producao{
     constructor (
-        readonly idPedido: BigInteger, 
+        readonly idPedido: Number, 
         readonly entradaCozinha?,
-        saidaCozinha?,
+        readonly saidaCozinha?,
         readonly id?
     ) {
         if (idPedido == null) {

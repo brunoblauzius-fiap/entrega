@@ -15,7 +15,7 @@ class ProducaoRepository implements IRepository{
     public getAll = async (params: any) => {
         let CONDITIONS = false;
         let result;
-        if (typeof params.name != 'undefined' && params.name != "") {
+        if (typeof params.idPedido != 'undefined' && params.idPedido != "") {
             CONDITIONS = true;
         }
 
@@ -29,7 +29,7 @@ class ProducaoRepository implements IRepository{
             return await this.db.find(
                 this.nomeTabela,
                 null,
-                [{ campo: "title", valor: params.title }]);
+                [{ campo: "idPedido", valor: params.idPedido }]);
         }
     }
 
@@ -49,24 +49,24 @@ class ProducaoRepository implements IRepository{
         );
     }
 
-    public update = async (producao: Producao, id: BigInteger) => {
+    public update = async (producao: Producao, id: Number) => {
         this.db.update(
             this.nomeTabela,
             [{ campo: "idPedido", valor: producao.idPedido }, 
             { campo: "saidaCozinha", valor: new Date() },
             { campo: "modified", valor:  new Date()}],
             [{ campo: "id", valor: id }]);  
-        return "Pedido alterado para pronto"
+        return "Pedido alterado para pronto."
     }
 
-    public delete = async (id: BigInteger) => {
-        return await this.db.delete(
+    public delete = async (id: Number) => {
+        let response = await this.db.delete(
             this.nomeTabela,
             [{ campo: "id", valor: id }]);
+        return "Pedido excluído com sucesso."
     }
 
-    public findById = async (id: BigInteger) => {
-        console.log('is',id)
+    public findById = async (id: Number) => {
         let data = await this.db.find(
             this.nomeTabela,
             null,
@@ -75,7 +75,7 @@ class ProducaoRepository implements IRepository{
             console.log(data)
             return data;
         } else {
-            return 0;
+            return [];
         }
     }
  
