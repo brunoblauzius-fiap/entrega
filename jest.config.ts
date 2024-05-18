@@ -6,11 +6,30 @@ export default {
   transform: {
     '^.+\\.tsx?$': 'ts-jest', // Transforma arquivos TypeScript
   },
+  testPathIgnorePatterns: [
+    '/tests/gateway/mockDatabase/MockDataBase.ts',
+    '/src/tests/gateway/mockDatabase/MockDataBase.js',
+    '/tests/gateway/mockDatabase/MockDataBaseNull.ts',
+    '/src/tests/gateway/mockDatabase/MockDataBaseNull.js'
+  ],
+  coveragePathIgnorePatterns : [
+    // '/src/'
+    '/tests/gateway/mockDatabase/MockDataBase.ts',
+    '/src/tests/gateway/mockDatabase/MockDataBase.js'
+  ],
+  coverageThreshold: {
+    "global": {
+      "branches": 80,
+      "functions": 80,
+      "lines": 80,
+      "statements": 80
+    }
+  },
   testTimeout: 120000,
   verbose: true,
   // detectOpenHandles: true,
   collectCoverage: true,
-  forceExit: true,
+  // forceExit: true,
   transformIgnorePatterns: ['./node_modules'],
   setupFiles: ['dotenv/config'],
 };
