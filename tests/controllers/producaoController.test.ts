@@ -218,4 +218,25 @@ describe("Produção Controller Testes", () => {
         expect(res.json).toHaveBeenCalledWith({});
     });
 
+
+    test("Retorno com erro 500.",  async  () => { 
+        let idPedido = "3326291";
+        const req = mockRequest({ params: { idPedido: idPedido } });
+        const res = mockResponse();  
+        mockDataBase.delete = jest.fn<() => Promise<never>>().mockRejectedValue(new Error("Erro interno no servidor."));
+        const controller = new ProducaoController(
+            new ProducaoRepository(mockDataBase),
+            mockPedidoService
+        )
+        await controller.delete(req as Request, res as Response);
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({
+            "message" : {
+                "non_field_error": [
+                    "Error: Erro interno no servidor."
+                ]
+            }
+        });
+    });
+
 });

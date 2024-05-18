@@ -45,8 +45,12 @@ export class ProducaoCasoDeUso{
     }
 
     static async deleteProduto(idPedido, ProducaoRepositorio: IRepository){
-                const Produto = await ProducaoRepositorio.delete(idPedido);
-        return Produto;
+        try {
+            const Produto = await ProducaoRepositorio.delete(idPedido);
+            return Produto;
+        } catch (err) {
+            throw new Error(err);
+        }
     }
 
 }
