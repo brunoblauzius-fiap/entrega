@@ -2,7 +2,7 @@ import { describe } from 'node:test';
 import { expect, test } from '@jest/globals';
 import Producao from '../../entity/producao';
 
-describe("Validando instancia de produção", () => {
+describe("Entidade Produção", () => {
     test("Cria objeto Produção", () => {
       let instance = new Producao(
             12123,

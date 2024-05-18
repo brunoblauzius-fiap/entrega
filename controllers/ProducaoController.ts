@@ -8,22 +8,14 @@ import ResponseErrors from '../adapters/ResponseErrors';
 import PedidoService from '../external/Services/PedidoService';
 
 
-class ProducaoController{
-     /**
-     * 
-     */
-     public repository: ProducaoRepository;
-     private _pedidoService: PedidoService;
-
-
+class ProducaoController {
      /**
       * 
       */
-     constructor(dbconnection: IDataBase) {
-         this.repository = new ProducaoRepository(dbconnection);
-         this._pedidoService= new PedidoService();
-
-     }
+     constructor(
+        readonly repository: ProducaoRepository,
+        readonly _pedidoService: PedidoService
+    ) {}
  
      /**
       * 
@@ -46,9 +38,8 @@ class ProducaoController{
       */
      public store = async (request, response) => {
         try {
-            console.log(request.body.idPedido)
             const data = await ProducaoCasoDeUso.sendProducao(request,this.repository);
-            response.status(HttpStatus.OK).json(ResponseAPI.data(data));
+            response.status(HttpStatus.CREATED).json(ResponseAPI.data(data));
 
         } catch(err) {
             ResponseErrors.err(response, err);
@@ -62,12 +53,9 @@ class ProducaoController{
       */
      public update = async (request, response) => {
         try {
-            
             const data = await ProducaoCasoDeUso.atualizarPedidoProducao(request,this.repository);
             await this._pedidoService.setStatusPedido(request.params.idPedido);
-            
             response.status(HttpStatus.OK).json(ResponseAPI.data(data));
-
         } catch(err) {
             ResponseErrors.err(response, err);
         }
@@ -98,8 +86,8 @@ class ProducaoController{
       */
      public delete = async (request, response) => {
          try {
-            if (typeof request.params.id == 'undefined') {
-                throw new BadRequestError("ID do registro é requerido.");
+            if (typeof request.params.idPedido == 'undefined') {
+                throw new BadRequestError("ID do pedido é requerido.");
             }
              await ProducaoCasoDeUso.deleteProduto(request.params.idPedido, this.repository);
              response.status(HttpStatus.NO_CONTENT).json({});

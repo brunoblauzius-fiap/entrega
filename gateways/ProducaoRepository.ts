@@ -1,7 +1,9 @@
+import { format } from 'date-fns';
 import IRepository from "../interfaces/IRepository";
 import Produto from '../entity/producao';
 import { IDataBase } from "../interfaces/IDataBase";
 import Producao from '../entity/producao';
+
 
 class ProducaoRepository implements IRepository{
     
@@ -37,13 +39,13 @@ class ProducaoRepository implements IRepository{
         let data = await this.db.store(
             this.nomeTabela,
             [{ campo: "idPedido", valor: producao.idPedido }, 
-            { campo: "entradaCozinha", valor:  new Date() },
+            { campo: "entradaCozinha", valor:  format(new Date(), 'yyyy-MM-dd HH:mm:ss') },
             { campo: "saidaCozinha", valor: null },
-            { campo: "created", valor:  new Date()}, 
+            { campo: "created", valor:  format(new Date(), 'yyyy-MM-dd HH:mm:ss')}, 
             ]);
                 return new Producao(
                     producao.idPedido,
-                    new Date(),
+                    format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
                     null,
                     parseInt(data.insertId)
         );
@@ -53,8 +55,8 @@ class ProducaoRepository implements IRepository{
         this.db.update(
             this.nomeTabela,
             [{ campo: "idPedido", valor: producao.idPedido }, 
-            { campo: "saidaCozinha", valor: new Date() },
-            { campo: "modified", valor:  new Date()}],
+            { campo: "saidaCozinha", valor: format(new Date(), 'yyyy-MM-dd HH:mm:ss')},
+            { campo: "modified", valor: format(new Date(), 'yyyy-MM-dd HH:mm:ss')}],
             [{ campo: "id", valor: id }]);  
         return "Pedido alterado para pronto."
     }
@@ -62,7 +64,7 @@ class ProducaoRepository implements IRepository{
     public delete = async (id: Number) => {
         let response = await this.db.delete(
             this.nomeTabela,
-            [{ campo: "id", valor: id }]);
+            [{ campo: "idPedido", valor: id }]);
         return "Pedido excluído com sucesso."
     }
 
@@ -71,11 +73,10 @@ class ProducaoRepository implements IRepository{
             this.nomeTabela,
             null,
             [{ campo: "idPedido", valor: id }]);
-        if (data.length>0) {
-            console.log(data)
-            return data;
+        if (data == null || data.length>0 ) {
+            return data[0];
         } else {
-            return [];
+            return null;
         }
     }
  

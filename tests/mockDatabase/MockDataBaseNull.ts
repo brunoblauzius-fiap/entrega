@@ -1,5 +1,5 @@
-import { IDataBase } from '../../../interfaces/IDataBase';
 import { jest } from '@jest/globals';
+import { IDataBase } from '../../interfaces/IDataBase';
 
 const mockDataBaseNullValue: jest.Mocked<IDataBase> = {
     store: jest.fn().mockReset().mockReturnValue({}) ,

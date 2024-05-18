@@ -7,15 +7,17 @@ export default {
     '^.+\\.tsx?$': 'ts-jest', // Transforma arquivos TypeScript
   },
   testPathIgnorePatterns: [
-    '/tests/gateway/mockDatabase/MockDataBase.ts',
-    '/src/tests/gateway/mockDatabase/MockDataBase.js',
-    '/tests/gateway/mockDatabase/MockDataBaseNull.ts',
-    '/src/tests/gateway/mockDatabase/MockDataBaseNull.js'
+    '/tests/mockDatabase/MockDataBase.ts',
+    '/src/tests/mockDatabase/MockDataBase.js',
+    '/tests/mockDatabase/MockDataBaseNull.ts',
+    '/src/tests/mockDatabase/MockDataBaseNull.js',
+    '/tests/mockDatabase/mockPedidoServiceOK.ts',
+    '/src/tests/mockDatabase/mockPedidoServiceOK.js'
   ],
   coveragePathIgnorePatterns : [
     // '/src/'
-    '/tests/gateway/mockDatabase/MockDataBase.ts',
-    '/src/tests/gateway/mockDatabase/MockDataBase.js'
+    '/tests/mockDatabase/MockDataBase.ts',
+    '/src/tests/mockDatabase/MockDataBase.js'
   ],
   coverageThreshold: {
     "global": {

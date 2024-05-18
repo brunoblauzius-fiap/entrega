@@ -1,5 +1,5 @@
-import { IDataBase } from '../../../interfaces/IDataBase';
 import { jest } from '@jest/globals';
+import { IDataBase } from '../../interfaces/IDataBase';
 
 // Defina um objeto com métodos mockados para a interface IDataBase
 const mockDataBase: jest.Mocked<IDataBase> = {

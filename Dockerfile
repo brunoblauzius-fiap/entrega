@@ -8,6 +8,8 @@ COPY tsconfig.json ./
 #RUN npm install typescript
 RUN npm install
 RUN npm install typescript -g
+RUN npm install jest-mock-req-res --save-dev
+RUN npm install date-fns --save
 
 COPY . /usr/src/apps
 

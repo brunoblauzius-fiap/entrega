@@ -1,14 +1,14 @@
 import { describe } from 'node:test';
 import { expect, test, it, jest } from '@jest/globals';
-import  MockDataBase from './mockDatabase/MockDataBase';
-import mockDataBaseNullValue from './mockDatabase/MockDataBaseNull';
 import ProducaoRepository from '../../gateways/ProducaoRepository';
 import Producao from '../../entity/producao';
+import MockDataBase from '../mockDatabase/MockDataBase';
+import mockDataBaseNullValue from '../mockDatabase/MockDataBaseNull';
 
 
 jest.mock('../../interfaces/IDataBase');
 
-describe("Mock Test MariaDB", () => {
+describe("Produção Repositório", () => {
     
     test("Recuperando todas os registros",  async  () => {        
         const repository = new ProducaoRepository(MockDataBase);
@@ -22,7 +22,16 @@ describe("Mock Test MariaDB", () => {
 
     test("Recuperando registro 33262665",  async  () => {        
         const repository = new ProducaoRepository(MockDataBase);
-        
+        MockDataBase.find = jest.fn().mockReturnValue([
+            {
+                "id": 1,
+                "idPedido": 33262665,
+            },
+            {
+                "id": 2,
+                "idPedido": 32226599,
+            },
+        ]);
         let producoes = await repository.getAll({idPedido: 33262665});
         
         expect(producoes).toHaveLength(2);
@@ -58,17 +67,23 @@ describe("Mock Test MariaDB", () => {
     });
 
     test("Recuperar registro inexistente",  async  () => { 
+        mockDataBaseNullValue.find = jest.fn().mockReturnValue([]);
         const repository = new ProducaoRepository(mockDataBaseNullValue);
         let producao = await repository.findById(33);
- 
-        expect(producao).toHaveLength(0);
+        expect(producao).toEqual(null);
     });
 
 
     test("Recuperar registro 33262665",  async  () => {  
         const repository = new ProducaoRepository(MockDataBase);
+        MockDataBase.find = jest.fn().mockReturnValue([
+            {
+                "id": 1,
+                "idPedido": 33262665,
+            },
+        ]);
         let producao = await repository.findById(1);
-        expect(producao[0].idPedido).toEqual(33262665);
+        expect(producao.idPedido).toEqual(33262665);
     });
 
 });

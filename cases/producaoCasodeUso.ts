@@ -12,7 +12,7 @@ export class ProducaoCasoDeUso{
 
     static async sendProducao(request, ProducaoRepositorio: IRepository){
         let producaoData = await ProducaoRepositorio.findById(request.body.idPedido);
-        if (producaoData.length > 0) {
+        if (producaoData != null) {
             throw new BadRequestError("Pedido já em produção.");
         }
 
@@ -24,13 +24,18 @@ export class ProducaoCasoDeUso{
                 let data = await ProducaoRepositorio.store(producao);
                 return data;
             } catch(err) {
-            throw new Error(err.message)
+                throw new Error(err.message)
             }
     }
-    static async atualizarPedidoProducao(request,ProducaoRepositorio: IRepository){
-        try {
 
+    static async atualizarPedidoProducao(request,ProducaoRepositorio: IRepository){
+        let producaoData = await ProducaoRepositorio.findById(request.body.idPedido);
             
+        if (producaoData == null) {
+            throw new BadRequestError("Pedido não encontrado.");
+        }
+
+        try {
             const producao = new Producao(
                 request.params.idPedido
             );
