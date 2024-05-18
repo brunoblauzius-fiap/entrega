@@ -15,8 +15,8 @@ class ResponseAPI
         return {'message' : [message]}
     }
 
-    public inputError = (input:string, message: string) => {
-        return {'message' : {input : [message]}}
+    public inputError = (input: string, message: string) => {
+        return {'message' : { input : [message] }}
     }
 
     public error = (message: string) => {
