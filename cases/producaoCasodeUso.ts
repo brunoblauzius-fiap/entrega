@@ -17,15 +17,11 @@ export class ProducaoCasoDeUso{
         }
 
         let producao = new Producao(
-                request.body.idPedido
-            );
+            request.body.idPedido
+        );
             
-            try {
-                let data = await ProducaoRepositorio.store(producao);
-                return data;
-            } catch(err) {
-                throw new Error(err.message)
-            }
+        let data = await ProducaoRepositorio.store(producao);
+        return data;
     }
 
     static async atualizarPedidoProducao(request,ProducaoRepositorio: IRepository){
@@ -35,14 +31,13 @@ export class ProducaoCasoDeUso{
             throw new BadRequestError("Pedido não encontrado.");
         }
 
-        try {
-            const producao = new Producao(
-                request.params.idPedido
-            );
+    
+        const producao = new Producao(
+            request.params.idPedido
+        );
 
-             let data = await ProducaoRepositorio.update(producao, request.params.idPedido);
-             return data;
-         } catch (err) { throw new Error(err.message)}
+        let data = await ProducaoRepositorio.update(producao, request.params.idPedido);
+        return data;
 
     }
     static async encontrarPedidoPorId(idPedido, ProducaoRepositorio: IRepository){
