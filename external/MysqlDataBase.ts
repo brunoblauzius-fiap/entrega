@@ -64,7 +64,7 @@ export class MysqlDataBase implements IDataBase {
     async delete(nomeTabela: string, parametros: ParametroBd[]) {
         const parametrosBusca = this.prepararParametrosBusca(parametros);
         const sql = `
-          Delete FROM ${nomeTabela}
+          DELETE FROM ${nomeTabela}
           ${parametrosBusca.restricao}
         `;
         const rows = await this.db.conn().query(sql, parametrosBusca.valores);
@@ -104,6 +104,7 @@ export class MysqlDataBase implements IDataBase {
           return campos.join(", ");
         }
     }
+
     private prepararParametrosBusca(
         params: ParametroBd[] | null | undefined
       ): parametros {

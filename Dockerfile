@@ -13,6 +13,6 @@ COPY . /usr/src/apps
 
 RUN tsc
 
-EXPOSE 3003
+EXPOSE 3000
 
 CMD ["npm", "start"]
