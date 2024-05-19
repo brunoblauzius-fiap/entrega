@@ -33,8 +33,8 @@ export default class Server{
 
         this.app.route('/').get((req, res) => {
             res.json({
-                'version' : '1.1.6',
-                'date' : '2024-03-18' 
+                'version' : '1.1.7',
+                'date' : '2024-05-18' 
             });
         });
         this.app.use("/", urls(this.dbconnection));
