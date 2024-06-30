@@ -3,7 +3,7 @@ abstract class IRepository {
     constructor(readonly db: IDataBase) {}
 
     abstract getAll(params);
-    abstract update(params, idPedido : Number);
+    abstract update(params, id : Number);
     abstract store(params);
     abstract delete(idPedido: Number);
     abstract findById(idPedido:Number);
