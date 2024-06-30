@@ -12,6 +12,13 @@ services:
       - 3003:3000
     environment:
       CHOKIDAR_USEPOLLING: "true"
+      DEBUG : ${DEBUG}
+      AWS_ACCESS_KEY_ID : ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_SQS_URL : ${AWS_SQS_URL}
+      AWS_SQS_PEDIDO_ENTREGA : ${AWS_SQS_PEDIDO_ENTREGA}
+      AWS_SQS_PEDIDO_ENTREGA_CANCELAR : ${AWS_SQS_PEDIDO_ENTREGA_CANCELAR}
+      AWS_SQS_PEDIDO_FINALIZADO : ${AWS_SQS_PEDIDO_FINALIZADO}
       MARIADB_HOST: ${MARIADB_HOST}
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASS: ${MARIADB_PASS}
@@ -19,6 +26,8 @@ services:
       MARIADB_PORT: ${MARIADB_PORT}
     depends_on:
       - maria-db-entrega
+    networks:
+        - microservice-fiap
 
   maria-db-entrega:
     image: mariadb:latest
@@ -32,6 +41,12 @@ services:
       MARIADB_ROOT_PASSWORD: ${MARIADB_PASS}
     ports:
       - 3010:3306
+    networks:
+        - microservice-fiap
 
 volumes:
   mariadb-entrega-data:
+
+networks:
+  microservice-fiap:
+    external: true
