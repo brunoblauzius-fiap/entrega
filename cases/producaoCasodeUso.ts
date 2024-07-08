@@ -10,14 +10,20 @@ export class ProducaoCasoDeUso{
         return pedidos;
     }
 
-    static async sendProducao(request, ProducaoRepositorio: IRepository){
-        let producaoData = await ProducaoRepositorio.findById(request.body.idPedido);
+    static async sendProducao(request, ProducaoRepositorio: IRepository, idPedido?){
+        let producaoData
+        if (idPedido=== null)
+            producaoData = await ProducaoRepositorio.findById(request.body.idPedido);
+        else
+            producaoData = await ProducaoRepositorio.findById(idPedido);
+
+
         if (producaoData.length > 0) {
             throw new BadRequestError("Pedido já em produção.");
         }
 
         let producao = new Producao(
-                request.body.idPedido
+            idPedido=== null? request.body.idPedido: idPedido
             );
             
             try {
@@ -30,12 +36,16 @@ export class ProducaoCasoDeUso{
     static async atualizarPedidoProducao(request,ProducaoRepositorio: IRepository){
         try {
 
-            
+           let response=await this.encontrarPedidoPorId(request.params.idPedido,ProducaoRepositorio)
+
             const producao = new Producao(
-                request.params.idPedido
+                request.params.idPedido,
+                response[0].entradaCozinha,
+                response[0].saidaCozinha,
+                response[0].id
             );
 
-             let data = await ProducaoRepositorio.update(producao, request.params.idPedido);
+             let data = await ProducaoRepositorio.update(producao, response[0].id);
              return data;
          } catch (err) { throw new Error(err.message)}
 

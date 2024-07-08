@@ -5,7 +5,7 @@ import { IDataBase } from '../interfaces/IDataBase';
 import { ProducaoCasoDeUso } from '../cases/producaoCasodeUso';
 import BadRequestError from '../application/exception/BadRequestError';
 import ResponseErrors from '../adapters/ResponseErrors';
-import PedidoService from '../external/Services/PedidoService';
+import QueueService from '../external/Services/QueueService';
 
 
 class ProducaoController{
@@ -13,7 +13,7 @@ class ProducaoController{
      * 
      */
      public repository: ProducaoRepository;
-     private _pedidoService: PedidoService;
+     private _queueService: QueueService;
 
 
      /**
@@ -21,7 +21,7 @@ class ProducaoController{
       */
      constructor(dbconnection: IDataBase) {
          this.repository = new ProducaoRepository(dbconnection);
-         this._pedidoService= new PedidoService();
+         this._queueService= new QueueService();
 
      }
  
@@ -62,9 +62,8 @@ class ProducaoController{
       */
      public update = async (request, response) => {
         try {
-            
             const data = await ProducaoCasoDeUso.atualizarPedidoProducao(request,this.repository);
-            await this._pedidoService.setStatusPedido(request.params.idPedido);
+            await this._queueService.confirmaEntrega(request.params.idPedido);
             
             response.status(HttpStatus.OK).json(ResponseAPI.data(data));
 
