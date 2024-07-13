@@ -8,6 +8,7 @@ class AWSSQS
     queueUrl = process.env.AWS_SQS_URL;
 
     constructor() {
+        
         let configs = {
             region: "us-east-1",
             credentials: {
@@ -19,7 +20,7 @@ class AWSSQS
         if (process.env.DEBUG=='true') {
             configs['endpoint'] = "http://localstack:4566";
         } 
-        
+
         this.sqsClient = new SQSClient(configs);
     }
 
